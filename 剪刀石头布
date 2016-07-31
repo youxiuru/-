@@ -64,10 +64,10 @@ void game(int i)
 			if(man==2){
 				printf("你赢了电脑！\n");
 			}
- 			if(com==2){
+ 			else if(com==2){
 				printf("电脑赢了你！\n");
 			}
-			else if(draw==7){
+			else{
 					printf("平局！\n");
 			} 
 			if(i!=0){
