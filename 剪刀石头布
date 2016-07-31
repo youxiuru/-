@@ -7,7 +7,8 @@ struct player
 {
 	char name[10];	
 	int win;		
-	int lose;		
+	int lose;
+	int draw;		
 	double rate;
 };
 
@@ -40,7 +41,7 @@ int judge(int a)
 
 void game(int i)	
 {
-	int a,man=0,com=0,score;
+	int a,man=0,com=0,draw=0,score;
 	while(1){
 		printf("\n请输入你要出的拳(0--剪刀/1--石头/2--布)：");
 		scanf("%d",&a);
@@ -55,17 +56,24 @@ void game(int i)
 		}else if(score==2){
 			printf("\n你输了！\n");
 			com++;
-		}else printf("\n平局！\n");
+		}else{ printf("\n平局！\n");
+				draw++;
 		printf("\n");
-		if(man==2||com==2){
+		}
+		if(man==2||com==2||draw==7){
 			if(man==2){
 				printf("你赢了电脑！\n");
-			} else {
+			}
+ 			if(com==2){
 				printf("电脑赢了你！\n");
+			}
+			else if(draw==7){
+					printf("平局！\n");
 			} 
 			if(i!=0){
 				if(man==2)g.win++;
-				else g.lose++;
+				else if(com==2) g.lose++;
+				else if(draw==7)g.draw++;
 			}
 			break;
 		}
@@ -81,11 +89,11 @@ void rank()
 
 		for(i=0;i<count;i++){
 			
-			gamer[0].rate=1.0*gamer[0].win/(gamer[0].win+gamer[0].lose);
+			gamer[0].rate=1.0*gamer[0].win/(gamer[0].win+gamer[0].lose+gamer[0].draw);
 			
 			for(j=i+1;j<=count;j++){
 				
-				if(gamer[j].lose!=0||gamer[j].win!=0)gamer[j].rate=1.0*gamer[j].win/(gamer[j].win+gamer[j].lose);
+				if(gamer[j].lose!=0||gamer[j].win!=0||gamer[j].draw!=0)gamer[j].rate=1.0*gamer[j].win/(gamer[j].win+gamer[j].lose+gamer[j].draw);
 				
 				if(gamer[i].rate<gamer[j].rate){
 					g=gamer[i];
@@ -97,9 +105,9 @@ void rank()
 		}
 	printf("*****************************************************************\n");
 	printf("			  排行榜\n\n");
-	printf("名次	姓名		胜局		负局		胜率\n");
+	printf("名次	姓名	       胜局	      平局	     负局	     胜率\n");
 	for(k=0;k<count;k++){
-		printf("%d%10s%15d%16d%16.2lf\n",k+1,gamer[k].name,gamer[k].win,gamer[k].lose,gamer[k].rate);
+		printf("%d%10s%15d%15d%16d%16.2lf\n",k+1,gamer[k].name,gamer[k].win,gamer[k].draw,gamer[k].lose,gamer[k].rate);
 	}
 	printf("*****************************************************************\n");
 }
